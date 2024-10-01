@@ -7,8 +7,8 @@ export default class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            fname: "",
-            lname: "",
+            userName: "",
+            phoneNumber: "",
             email: "",
             password: "",
         };
@@ -17,8 +17,8 @@ export default class SignUp extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        const { fname, lname, email, password } = this.state;
-        console.log(fname, lname, email, password);
+        const { userName, phoneNumber, email, password } = this.state;
+        console.log(userName, phoneNumber, email, password);
         fetch("http://localhost:5000/register", {
             method: "POST",
             crossDomain: true,
@@ -28,8 +28,8 @@ export default class SignUp extends Component {
                 "Accesss-Control-Allow-Origin": "*",
             },
             body: JSON.stringify({
-                fname,
-                lname,
+                userName,
+                phoneNumber,
                 email,
                 password,
             }),
@@ -49,25 +49,29 @@ export default class SignUp extends Component {
                             <h3 className="text-center mb-4">Sign Up</h3>
 
                             <div className="form-group mb-3">
-                                <label>First name</label>
+                                <label>User Name</label>
                                 <input
                                     type="text"
+                                    id="userName"
+                                    name="userName"
                                     className="form-control"
-                                    placeholder="First name"
+                                    placeholder="User name"
                                     onChange={(e) =>
-                                        this.setState({ fname: e.target.value })
+                                        this.setState({ userName: e.target.value })
                                     }
                                 />
                             </div>
 
                             <div className="form-group mb-3">
-                                <label>Last name</label>
+                                <label>Phone Number</label>
                                 <input
-                                    type="text"
+                                    type="phone"
+                                    id="phoneNumber"
+                                    name="phoneNumber"
                                     className="form-control"
-                                    placeholder="Last name"
+                                    placeholder="Phone number"
                                     onChange={(e) =>
-                                        this.setState({ lname: e.target.value })
+                                        this.setState({ phoneNumber: e.target.value })
                                     }
                                 />
                             </div>
@@ -76,6 +80,8 @@ export default class SignUp extends Component {
                                 <label>Email address</label>
                                 <input
                                     type="email"
+                                    id="email"
+                                    name="email"
                                     className="form-control"
                                     placeholder="Enter email"
                                     onChange={(e) =>
@@ -88,6 +94,8 @@ export default class SignUp extends Component {
                                 <label>Password</label>
                                 <input
                                     type="password"
+                                    id="password"
+                                    name="password"
                                     className="form-control"
                                     placeholder="Enter password"
                                     onChange={(e) =>
