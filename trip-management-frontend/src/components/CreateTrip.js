@@ -46,28 +46,33 @@ const CreateTrip = () => {
                                 required
                             />
                         </div>
-                        <div className="mb-3">
-                            <label className="form-label">Start Date:</label>
-                            <input
-                                type="date"
-                                className="form-control"
-                                name="startDate"
-                                value={tripDetails.startDate}
-                                onChange={handleChange}
-                                required
-                            />
+
+                        {/* Row for Start Date and End Date */}
+                        <div className="mb-3 row">
+                            <div className="col">
+                                <label className="form-label">Start Date:</label>
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    name="startDate"
+                                    value={tripDetails.startDate}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                            <div className="col">
+                                <label className="form-label">End Date:</label>
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    name="endDate"
+                                    value={tripDetails.endDate}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
                         </div>
-                        <div className="mb-3">
-                            <label className="form-label">End Date:</label>
-                            <input
-                                type="date"
-                                className="form-control"
-                                name="endDate"
-                                value={tripDetails.endDate}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
+
                         <div className="mb-3">
                             <label className="form-label">Location:</label>
                             <input
@@ -106,7 +111,7 @@ const CreateTrip = () => {
                                 <option value="GBP">GBP</option>
                                 <option value="JPY">JPY</option>
                                 <option value="AUD">AUD</option>
-                                {/* Add more currency options as needed */}
+                                {}
                             </select>
                         </div>
                         <button type="submit" className="btn btn-success">Save Trip</button>
