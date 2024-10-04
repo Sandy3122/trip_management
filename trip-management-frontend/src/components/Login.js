@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import '../styles/Login.css';
 import { validateEmail, validateRequired } from '../utils/inputValidation';
 
-const Login = () => {
+const Login = ({ onLogin }) => {  // Accept onLogin as a prop
     const [formData, setFormData] = useState({
         email: "",
         password: "",
     });
 
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate(); // Use useNavigate for navigation
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -29,7 +30,9 @@ const Login = () => {
         e.preventDefault();
         if (handleValidation()) {
             console.log(formData);
-            // Perform login
+            // Perform login logic here (e.g., authenticate user)
+            onLogin(); // Call the onLogin function passed as props
+            navigate('/home-page'); // Navigate to home page
         } else {
             console.log("Validation failed");
         }
