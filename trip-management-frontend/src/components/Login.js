@@ -1,111 +1,85 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
-import '../styles/Login.css'
+import '../styles/Login.css';
+import { validateEmail, validateRequired } from '../utils/inputValidation';
 
-export default class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: "",
-            password: "",
-            errors: {},
-        };
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this); 
-    }
-    handleChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value, errors: {} }); // Clear errors on change
-    }
-    validate = () => {
-        const { email, password } = this.state;
-        const errors = {};
-        let isValid = true;
+const Login = () => {
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+    });
 
-        if (!email || !/\S+@\S+\.\S+/.test(email)) {
-            errors.email = "Email is required and must be valid.";
-            isValid = false;
-        }
-        if (!password) {
-            errors.password = "Password is required.";
-            isValid = false;
-        }
+    const [errors, setErrors] = useState({});
 
-        this.setState({ errors });
-        return isValid;
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
     };
 
-    handleSubmit = (e) => {
+    const handleValidation = () => {
+        const newErrors = {};
+        newErrors.email = validateEmail(formData.email);
+        newErrors.password = validateRequired(formData.password);
+        setErrors(newErrors);
+        return Object.values(newErrors).every((error) => error === "");
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        if (!this.validate()) return;
+        if (handleValidation()) {
+            console.log(formData);
+            // Perform login
+        } else {
+            console.log("Validation failed");
+        }
+    };
 
-        const { email, password } = this.state;
-        console.log("Submitted: ", { email, password });
-        
-    }
-    render() {
-        const { email, password, errors } = this.state;
-        return (
-            <div className="container-fluid d-flex justify-content-center align-items-center vh-100">
-                <div className="col-12 col-md-8 col-lg-4">
-                    <div className="card shadow-lg p-4">
-                        <form onSubmit={this.handleSubmit}> 
-                            <h3 className="text-center mb-4">Sign In</h3>
+    return (
+        <div className="container-fluid d-flex justify-content-center align-items-center vh-100">
+            <div className="col-12 col-md-8 col-lg-4">
+                <div className="card shadow-lg p-4">
+                    <form onSubmit={handleSubmit}>
+                        <h3 className="text-center mb-4">Sign In</h3>
 
-                            <div className="form-group mb-3">
-                                <label>Email address</label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    placeholder="Enter email"
-                                    onChange={this.handleChange}
-                                    className={`form-control ${errors.email ? 'is-invalid' : ''}`}                                  
-                                />
-                                {errors.email && <div className="invalid-feedback">{errors.email}</div>}
-                            </div>
+                        <div className="form-group mb-3">
+                            <label>Email address</label>
+                            <input
+                                type="email"
+                                name="email"
+                                className="form-control"
+                                placeholder="Enter email"
+                                value={formData.email}
+                                onChange={handleChange}
+                            />
+                            {errors.email && <span className="text-danger">{errors.email}</span>}
+                        </div>
 
-                            <div className="form-group mb-3">
-                                <label>Password</label>
-                                <input
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    placeholder="Enter password"
-                                    onChange={this.handleChange}
-                                    className={`form-control ${errors.password ? 'is-invalid' : ''}`}                                    
-                                />
-                                {errors.password && <div className="invalid-feedback">{errors.password}</div>}
-                            </div>
+                        <div className="form-group mb-3">
+                            <label>Password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                className="form-control"
+                                placeholder="Enter password"
+                                value={formData.password}
+                                onChange={handleChange}
+                            />
+                            {errors.password && <span className="text-danger">{errors.password}</span>}
+                        </div>
 
-                            <div className="form-group form-check mb-3">
-                                <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="customCheck1"
-                                />
-                                <label
-                                    className="form-check-label"
-                                    htmlFor="customCheck1"
-                                >
-                                    Remember me
-                                </label>
-                            </div>
+                        <button type="submit" className="btn btn-primary w-100">
+                            Sign In
+                        </button>
 
-                            <button
-                                type="submit"
-                                className="btn btn-primary w-100"
-                            >
-                                Submit
-                            </button>
-
-                            <p className="text-center mt-3">
-                                Don't have an account? <Link to="/sign-up">Sign up</Link>
-                            </p>
-                        </form>
-                    </div>
+                        <p className="text-center mt-3">
+                            Don't have an account? <Link to="/sign-up">Sign up</Link>
+                        </p>
+                    </form>
                 </div>
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
+
+export default Login;
