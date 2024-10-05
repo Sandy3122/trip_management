@@ -18,6 +18,20 @@ class UserRepository {
     }
   };
 
+  // Function to handle the login endpoint call
+  loginUser = async (credentials) => {
+    try {
+      const url = userCreation.loginUser(); // a function in userCreation for login users
+      const response = await ApiClient.post(url, credentials);
+      toast.success("Login successful!");
+      return response.result;
+    } catch (error) {
+      console.error("Error during login:", error);
+      toast.error(error.message || "Login failed");
+      throw error;
+    }
+  };
+
 }
 
 const userRepository = new UserRepository();

@@ -6,11 +6,11 @@ const HomePage = () => {
     const navigate = useNavigate();
 
     const handleCreateTrip = () => {
-        navigate('/create-trip'); // Navigate to create trip page
+        navigate('/create-trip');
     };
 
     const handleJoinTrip = () => {
-        navigate('/join-trip'); // Navigate to join trip page
+        navigate('/join-trip');
     };
 
     return (

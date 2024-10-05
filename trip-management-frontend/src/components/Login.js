@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import '../styles/Login.css';
 import { validateEmail, validateRequired } from '../utils/inputValidation';
+import { UserRepository } from '../api/repository';
 
 const Login = ({ onLogin }) => {  // Accept onLogin as a prop
     const [formData, setFormData] = useState({
@@ -26,15 +27,22 @@ const Login = ({ onLogin }) => {  // Accept onLogin as a prop
         return Object.values(newErrors).every((error) => error === "");
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (handleValidation()) {
-            console.log(formData);
-            // Perform login logic here (e.g., authenticate user)
-            onLogin(); // Call the onLogin function passed as props
-            navigate('/home-page'); // Navigate to home page
-        } else {
-            console.log("Validation failed");
+            try {
+                const response = await UserRepository.loginUser(formData);  // Login logic here
+                console.log("response: ", response)
+                const { accessToken, refreshToken } = response;
+                // Store the token in localStorage or sessionStorage
+                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('refreshToken', refreshToken);
+
+                onLogin();  // Update login state
+                navigate('/home-page');  // Navigate to home page after login
+            } catch (error) {
+                console.error("Login failed:", error);
+            }
         }
     };
 
@@ -49,6 +57,7 @@ const Login = ({ onLogin }) => {  // Accept onLogin as a prop
                             <label>Email address</label>
                             <input
                                 type="email"
+                                id="email"
                                 name="email"
                                 className="form-control"
                                 placeholder="Enter email"
@@ -62,6 +71,7 @@ const Login = ({ onLogin }) => {  // Accept onLogin as a prop
                             <label>Password</label>
                             <input
                                 type="password"
+                                id="password"
                                 name="password"
                                 className="form-control"
                                 placeholder="Enter password"
