@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 // Middleware
-app.options( '*' , cors())
+app.use( cors())
 
 // Routes
 app.use('/api/users', require('./src/routes/userRoutes'));
