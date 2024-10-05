@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import '../styles/Login.css';
 import { validateEmail, validateRequired } from '../utils/inputValidation';
+import { UserRepository } from '../api/repository';
 
-const Login = () => {
+const Login = ({ onLogin }) => {  // Accept onLogin as a prop
     const [formData, setFormData] = useState({
         email: "",
         password: "",
     });
 
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate(); // Use useNavigate for navigation
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -25,13 +27,22 @@ const Login = () => {
         return Object.values(newErrors).every((error) => error === "");
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (handleValidation()) {
-            console.log(formData);
-            // Perform login
-        } else {
-            console.log("Validation failed");
+            try {
+                const response = await UserRepository.loginUser(formData);  // Login logic here
+                console.log("response: ", response)
+                const { accessToken, refreshToken } = response;
+                // Store the token in localStorage or sessionStorage
+                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('refreshToken', refreshToken);
+
+                onLogin();  // Update login state
+                navigate('/home-page');  // Navigate to home page after login
+            } catch (error) {
+                console.error("Login failed:", error);
+            }
         }
     };
 
@@ -46,6 +57,7 @@ const Login = () => {
                             <label>Email address</label>
                             <input
                                 type="email"
+                                id="email"
                                 name="email"
                                 className="form-control"
                                 placeholder="Enter email"
@@ -59,6 +71,7 @@ const Login = () => {
                             <label>Password</label>
                             <input
                                 type="password"
+                                id="password"
                                 name="password"
                                 className="form-control"
                                 placeholder="Enter password"
