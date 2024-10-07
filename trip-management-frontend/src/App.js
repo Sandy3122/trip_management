@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -12,13 +12,8 @@ import PrivateRoute from './routes/PrivateRoute';
 import PublicRoute from './routes/PublicRoute';    
 
 function App() {
-    // Check if the user is logged in by checking local storage
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        const token = localStorage.getItem("accessToken");
-        setIsLoggedIn(!!token); // Set logged in state based on token presence
-    }, []);
+    // Check if the user is logged in by checking localStorage
+    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("accessToken"));
 
     const handleLogin = () => {
         setIsLoggedIn(true);
@@ -31,11 +26,12 @@ function App() {
                     <div className="auth-inner">
                         <ToastContainer /> 
                         <Routes>
-                            <Route path="/" element={<PublicRoute isAuthenticated={isLoggedIn} component={SignUp} />} />
-                            <Route path="/sign-in" element={<PublicRoute isAuthenticated={isLoggedIn} component={<Login onLogin={handleLogin} />} />} />
-                            <Route path="/sign-up" element={<PublicRoute isAuthenticated={isLoggedIn} component={SignUp} />} />
-                            <Route path="/home-page" element={<PrivateRoute isAuthenticated={isLoggedIn} component={HomePage} />} />
-                            <Route path="/create-trip" element={<PrivateRoute isAuthenticated={isLoggedIn} component={CreateTrip} />} />
+                            <Route path="/" element={<PublicRoute isAuthenticated={isLoggedIn} Component={SignUp} />} />
+                            {/* Pass Login component correctly with props */}
+                            <Route path="/sign-in" element={<PublicRoute isAuthenticated={isLoggedIn} Component={() => <Login onLogin={handleLogin} />} />} />
+                            <Route path="/sign-up" element={<PublicRoute isAuthenticated={isLoggedIn} Component={SignUp} />} />
+                            <Route path="/home-page" element={<PrivateRoute isAuthenticated={isLoggedIn} Component={HomePage} />} />
+                            <Route path="/create-trip" element={<PrivateRoute isAuthenticated={isLoggedIn} Component={CreateTrip} />} />
                         </Routes>
                     </div>
                 </div>
