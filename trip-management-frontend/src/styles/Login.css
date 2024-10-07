@@ -1,0 +1,10 @@
+.container-fluid{
+    background-image: url('https://t4.ftcdn.net/jpg/02/80/82/81/240_F_280828158_ZZ2W8atYMHiSkLoDzxgDHNhdmXJ31jCR.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.card{
+    border: none;
+    background-color: transparent;
+}

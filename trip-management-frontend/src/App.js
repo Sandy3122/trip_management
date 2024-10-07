@@ -1,43 +1,43 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap import
-import './App.css';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import Login from "./components/Login.component"; 
-import SignUp from "./components/signup.component"; 
+import Login from "./components/Login";
+import SignUp from "./components/Signup";
+import HomePage from "./components/HomePage";
+import CreateTrip from "./components/CreateTrip";
+import PrivateRoute from './routes/PrivateRoute';  
+import PublicRoute from './routes/PublicRoute';    
 
 function App() {
-  return (
-    <Router>
-      <div className="App">
-        <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-          <div className="container">
-            <Link className="navbar-brand" to='/sign-in'></Link>
-            <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-              <ul className="navbar-nav ml-auto">
-                <li className="nav-item">
-                  <Link className="nav-link" to='/sign-in'>Login</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to='/sign-up'>Sign up</Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
+    // Check if the user is logged in by checking localStorage
+    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("accessToken"));
 
-        <div className="auth-wrapper">
-          <div className="auth-inner">
-            <Routes>
-              <Route path="/" element={<SignUp />} /> {/* Default path */}
-              <Route path="/sign-in" element={<Login />} />
-              <Route path="/sign-up" element={<SignUp />} />
-            </Routes>
-          </div>
-        </div>
-      </div>
-    </Router>
-  );
+    const handleLogin = () => {
+        setIsLoggedIn(true);
+    };
+
+    return (
+        <Router>
+            <div className="App">
+                <div className="auth-wrapper">
+                    <div className="auth-inner">
+                        <ToastContainer /> 
+                        <Routes>
+                            <Route path="/" element={<PublicRoute isAuthenticated={isLoggedIn} Component={SignUp} />} />
+                            {/* Pass Login component correctly with props */}
+                            <Route path="/sign-in" element={<PublicRoute isAuthenticated={isLoggedIn} Component={() => <Login onLogin={handleLogin} />} />} />
+                            <Route path="/sign-up" element={<PublicRoute isAuthenticated={isLoggedIn} Component={SignUp} />} />
+                            <Route path="/home-page" element={<PrivateRoute isAuthenticated={isLoggedIn} Component={HomePage} />} />
+                            <Route path="/create-trip" element={<PrivateRoute isAuthenticated={isLoggedIn} Component={CreateTrip} />} />
+                        </Routes>
+                    </div>
+                </div>
+            </div>
+        </Router>
+    );
 }
 
 export default App;
