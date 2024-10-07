@@ -1,8 +1,9 @@
+// PrivateRoute.js
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
-const PrivateRoute = ({ isAuthenticated, component: Component }) => {
-  return isAuthenticated ? <Component /> : <Navigate to="/sign-in" />;
+const PrivateRoute = ({ isAuthenticated, Component, ...rest }) => {
+  return isAuthenticated ? <Component {...rest} /> : <Navigate to="/sign-up" />;
 };
 
 export default PrivateRoute;

@@ -17,12 +17,12 @@ app.use(express.json()); // For parsing JSON bodies
 app.use(express.urlencoded({ extended: true }));
 
 
-
 // Middleware
-app.use( cors())
+app.use(cors())
 
 // Routes
 app.use('/api/users', require('./src/routes/userRoutes'));
+app.use('/api/autocomplete', require('./src/routes/googleMapsAPI'))
 
 // Default route
 app.get('/', (req, res) => {
