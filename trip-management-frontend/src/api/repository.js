@@ -1,5 +1,5 @@
 import { ApiClient } from "../network/apiClient";
-import { userCreation } from "./endPoints";
+import { userCreation } from "../api/endPoints";
 import { toast } from 'react-toastify'; // Import toast
 
 class UserRepository {
@@ -31,6 +31,23 @@ class UserRepository {
       throw error;
     }
   };
+
+    // Function to handle the Google Places API call
+    getPlaces = async (input) => {
+      if (input.length < 2) {
+        return [];
+      }
+  
+      try {
+        const url = userCreation.placesApi(input); // a function in userCreation to get places
+        const response = await ApiClient.get(url);
+  
+        return response.result;
+      } catch (error) {
+        toast.error(error.message || "Error fetching places. Please try again later.");
+        throw error;
+      }
+    };
 
 }
 
