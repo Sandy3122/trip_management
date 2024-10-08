@@ -16,7 +16,6 @@ exports.GoogleMapPlaces = async (req, res) => {
                 .join(', '); 
         }) || [];
 
-        console.log('res: ', places);
         res.json(Response.success(200, places, 'Fetched places successfully'));
     } catch (error) {
         console.error('Error fetching from Google API:', error);
