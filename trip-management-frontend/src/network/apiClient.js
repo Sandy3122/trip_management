@@ -1,6 +1,6 @@
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
-import { bearerTokenReqInterceptor } from "../network/interceptors";
+import { bearerTokenReqInterceptor, refreshTokenInterceptor } from "../network/interceptors";
 import { successHandler, errorHandler } from "../network/responseHandlers";
 
 // Function to get the Axios instance
@@ -14,9 +14,11 @@ const getAxiosInstance = (baseUrl) => {
       offset: -330
     }
   });
+
+  console.log('baseURL: ', baseURL);
   // Add request and response interceptors
   axiosInstance = bearerTokenReqInterceptor(axiosInstance);
-  // axiosInstance = refreshTokenInterceptor(axiosInstance, baseUrl);
+  axiosInstance = refreshTokenInterceptor(axiosInstance, baseUrl);
   return axiosInstance;
 };
 

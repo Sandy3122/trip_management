@@ -10,6 +10,7 @@ import HomePage from "./components/HomePage";
 import CreateTrip from "./components/CreateTrip";
 import PrivateRoute from './routes/PrivateRoute';  
 import PublicRoute from './routes/PublicRoute';    
+import JoinTrip from './components/JoinTrip';
 
 function App() {
     // Check if the user is logged in by checking localStorage
@@ -32,6 +33,8 @@ function App() {
                             <Route path="/sign-up" element={<PublicRoute isAuthenticated={isLoggedIn} Component={SignUp} />} />
                             <Route path="/home-page" element={<PrivateRoute isAuthenticated={isLoggedIn} Component={HomePage} />} />
                             <Route path="/create-trip" element={<PrivateRoute isAuthenticated={isLoggedIn} Component={CreateTrip} />} />
+                            <Route path="/join-trip" element={<PrivateRoute isAuthenticated={isLoggedIn} Component={JoinTrip} />} />
+
                         </Routes>
                     </div>
                 </div>

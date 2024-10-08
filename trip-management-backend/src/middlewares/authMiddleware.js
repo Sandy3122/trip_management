@@ -12,7 +12,7 @@ const authenticateJWT = (req, res, next) => {
     const decoded = jwtUtils.verifyAccessToken(accessToken);
 
     if (!decoded) {
-        return res.status(403).json(Response.error(403, null, 'Invalid or expired access token'));
+        return res.status(401).json(Response.error(401, null, 'Invalid or expired access token'));
     }
 
     req.user = decoded;  // Store user info in the request object
