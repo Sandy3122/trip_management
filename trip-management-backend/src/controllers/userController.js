@@ -54,14 +54,7 @@ exports.loginUser = async (req, res) => {
             return res.status(404).json(Response.error(404, { errCode: 'USER_NOT_FOUND' }, 'User not found'));
         }
 
-        const user = existingUserResponse.data;
-
-        console.log('existing user: ', user)
-
-        // Log the values for debugging
-        console.log('Type of password from request:', typeof password); // Should be 'string'
-        console.log('Type of stored password from database:', typeof user.password); // Should be 'string'
-        
+        const user = existingUserResponse.data;        
 
         // Check if the password is correct
         const isMatch = await bcrypt.compare(password, user.password);

@@ -53,16 +53,14 @@ const SignUp = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('formdata1: ', formData)
         if (handleValidation()) {
           try {
-            console.log('formdata2: ', formData)
             const response = await UserRepository.registerUser(formData); // Calls the repository function
             // Reset form data
             resetFormData();
             // Redirect to the login page
             navigate('/sign-in');
-            console.log(response, "userRegister");
+            console.log("userRegister", response);
           } catch (error) {
             console.error("Registration failed:", error);
           }
