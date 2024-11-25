@@ -30,10 +30,13 @@ const userRateLimiter = rateLimit({
 app.use(cors())
 
 // Routes
-app.use('/auth', authRoutes);
+app.use('/auth', authRoutes);   // Refresh Token
 app.use('/api/users', userRateLimiter, require('./src/routes/userRoutes'));
 app.use('/api/autocomplete', require('./src/routes/googleMapsAPI'))
 app.use('/api/trip', authenticateJWT, require('./src/routes/tripRoutes'))
+
+app.use('/', require('./src/routes/dynamicRoutes'))
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {

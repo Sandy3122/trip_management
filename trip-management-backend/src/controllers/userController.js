@@ -33,7 +33,7 @@ exports.registerUser = async (req, res) => {
         const newUser = await UserService.createUser({ userName, phoneNumber, email, password });
         
         res.status(201).json(Response.success(201, {
-            id: newUser._id,
+            userId : newUser.userId,
             userName: newUser.userName,
             email: newUser.email,
         }, 'User registered successfully'));

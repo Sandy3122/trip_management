@@ -33,16 +33,21 @@ const tripSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    membersJoined: [
-        {
-            userId: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'User',
-                required: true,
-            },
-            _id: false,
-        },
-    ],
+    // membersJoined: [
+    //     {
+    //         userId: {
+    //             type: mongoose.Schema.Types.ObjectId,
+    //             ref: 'User',
+    //             required: true,
+    //         },
+    //         _id: false,
+    //     },
+    // ],
+    membersJoined: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'User',
+        default: [],
+    },
     tripId: {
         type: String,
         default: uuidv4, // Generates a unique tripId

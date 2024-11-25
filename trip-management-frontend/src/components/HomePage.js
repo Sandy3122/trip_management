@@ -13,6 +13,10 @@ const HomePage = () => {
         navigate('/join-trip');
     };
 
+    const handleTripDetails = () => {
+        navigate('/trip-details');
+    }
+
     return (
         <div className="d-flex justify-content-center align-items-center" style={styles.container}>
             <div className="text-center">
@@ -23,6 +27,9 @@ const HomePage = () => {
                     </button>
                     <button className="btn btn-secondary" onClick={handleJoinTrip}>
                         Join Trip
+                    </button>
+                    <button className="btn btn-secondary" onClick={handleTripDetails}>
+                        My Trips
                     </button>
                 </div>
             </div>
